@@ -158,45 +158,46 @@ function addComprehensiveAnalysisPanel(emailData) {
       background: white;
       border: 1px solid #dadce0;
       border-radius: 12px;
-      padding: 20px;
+      padding: 16px;
       margin-bottom: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       font-family: 'Google Sans', Roboto, sans-serif;
     ">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
         <div style="display: flex; align-items: center;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#1a73e8" style="margin-right: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1a73e8" style="margin-right: 8px;">
             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
-          <strong style="font-size: 16px; color: #1a73e8;">AI Email Analysis</strong>
+          <strong style="font-size: 15px; color: #1a73e8;">AI Email Analysis</strong>
         </div>
         <span style="
           background: #1a73e8;
           color: white;
-          padding: 4px 12px;
-          border-radius: 16px;
-          font-size: 12px;
+          padding: 3px 10px;
+          border-radius: 14px;
+          font-size: 11px;
           font-weight: 500;
         ">DISC Extension</span>
       </div>
       
-      <div class="analysis-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+      <div class="analysis-cards" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;">
         <!-- Communication Style Card -->
         <div class="analysis-card" style="
           background: #f8f9fa;
           border: 1px solid #e8eaed;
           border-radius: 8px;
-          padding: 16px;
+          padding: 12px;
           text-align: center;
+          min-width: 0;
         ">
-          <div style="margin-bottom: 8px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#34a853" style="margin: 0 auto;">
+          <div style="margin-bottom: 6px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#34a853" style="margin: 0 auto;">
               <path d="M7 14l3-3 2 2 7-7 2 2-9 9-4-4z"/>
             </svg>
           </div>
-          <div style="font-size: 12px; color: #5f6368; margin-bottom: 4px;">Communication Style</div>
-          <div class="style-result" style="font-size: 18px; font-weight: 600; color: #202124;">Analyzing...</div>
-          <div class="style-description" style="font-size: 11px; color: #5f6368; margin-top: 4px;">Processing...</div>
+          <div style="font-size: 11px; color: #5f6368; margin-bottom: 3px;">Communication Style</div>
+          <div class="style-result" style="font-size: 16px; font-weight: 600; color: #202124; margin-bottom: 2px;">Analyzing...</div>
+          <div class="style-description" style="font-size: 10px; color: #5f6368;">Processing...</div>
         </div>
         
         <!-- Priority Level Card -->
@@ -204,17 +205,18 @@ function addComprehensiveAnalysisPanel(emailData) {
           background: #f8f9fa;
           border: 1px solid #e8eaed;
           border-radius: 8px;
-          padding: 16px;
+          padding: 12px;
           text-align: center;
+          min-width: 0;
         ">
-          <div style="margin-bottom: 8px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ea4335" style="margin: 0 auto;">
+          <div style="margin-bottom: 6px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ea4335" style="margin: 0 auto;">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
           </div>
-          <div style="font-size: 12px; color: #5f6368; margin-bottom: 4px;">Priority Level</div>
-          <div class="priority-result" style="font-size: 18px; font-weight: 600; color: #202124;">Analyzing...</div>
-          <div class="priority-tags" style="margin-top: 8px;"></div>
+          <div style="font-size: 11px; color: #5f6368; margin-bottom: 3px;">Priority Level</div>
+          <div class="priority-result" style="font-size: 16px; font-weight: 600; color: #202124; margin-bottom: 2px;">Analyzing...</div>
+          <div class="priority-tags" style="margin-top: 6px;"></div>
         </div>
         
         <!-- Response Style Card -->
@@ -222,16 +224,17 @@ function addComprehensiveAnalysisPanel(emailData) {
           background: #f8f9fa;
           border: 1px solid #e8eaed;
           border-radius: 8px;
-          padding: 16px;
+          padding: 12px;
           text-align: center;
+          min-width: 0;
         ">
-          <div style="margin-bottom: 8px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4285f4" style="margin: 0 auto;">
+          <div style="margin-bottom: 6px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#4285f4" style="margin: 0 auto;">
               <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
           </div>
-          <div style="font-size: 12px; color: #5f6368; margin-bottom: 4px;">Response Style</div>
-          <div class="response-result" style="font-size: 14px; color: #202124; line-height: 1.3;">Analyzing...</div>
+          <div style="font-size: 11px; color: #5f6368; margin-bottom: 3px;">Response Style</div>
+          <div class="response-result" style="font-size: 12px; color: #202124; line-height: 1.3;">Analyzing...</div>
         </div>
       </div>
       
@@ -240,39 +243,39 @@ function addComprehensiveAnalysisPanel(emailData) {
         background: #f8f9fa;
         border: 1px solid #e8eaed;
         border-radius: 8px;
-        padding: 16px;
+        padding: 14px;
       ">
-        <div style="display: flex; align-items: center; margin-bottom: 12px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#1a73e8" style="margin-right: 8px;">
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1a73e8" style="margin-right: 8px;">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
           </svg>
-          <strong style="color: #1a73e8; font-size: 14px;">AI-Generated Response Suggestion</strong>
+          <strong style="color: #1a73e8; font-size: 13px;">AI-Generated Response Suggestion</strong>
         </div>
         <div class="response-content" style="
           background: white;
           border: 1px solid #e8eaed;
           border-radius: 6px;
-          padding: 12px;
-          margin-bottom: 12px;
-          font-size: 13px;
-          line-height: 1.5;
+          padding: 10px;
+          margin-bottom: 10px;
+          font-size: 12px;
+          line-height: 1.4;
           color: #202124;
         ">
           <div class="response-text">Analyzing email content and generating personalized response...</div>
         </div>
         <div style="
-          font-size: 11px;
+          font-size: 10px;
           color: #5f6368;
-          margin-bottom: 12px;
+          margin-bottom: 10px;
           font-style: italic;
         ">Calibrated to your DISC profile and sender's communication style</div>
-        <div style="display: flex; gap: 8px;">
+        <div style="display: flex; gap: 6px;">
           <button class="copy-response-btn" style="
             background: white;
             border: 1px solid #dadce0;
             border-radius: 6px;
-            padding: 8px 16px;
-            font-size: 12px;
+            padding: 6px 12px;
+            font-size: 11px;
             color: #5f6368;
             cursor: pointer;
             transition: all 0.2s;
@@ -283,8 +286,8 @@ function addComprehensiveAnalysisPanel(emailData) {
             background: #1a73e8;
             border: none;
             border-radius: 6px;
-            padding: 8px 16px;
-            font-size: 12px;
+            padding: 6px 12px;
+            font-size: 11px;
             color: white;
             cursor: pointer;
             font-weight: 500;
@@ -331,10 +334,10 @@ function performComprehensiveAnalysis(emailData, analysisPanel) {
       `<span style="
         background: #e8f0fe;
         color: #1a73e8;
-        padding: 2px 8px;
-        border-radius: 12px;
-        font-size: 10px;
-        margin: 2px;
+        padding: 1px 6px;
+        border-radius: 10px;
+        font-size: 9px;
+        margin: 1px;
         display: inline-block;
       ">${tag}</span>`
     ).join('');
@@ -363,7 +366,8 @@ function analyzeCommunicationStyle(emailData) {
   
   // Dominant (D) - Direct, results-focused
   if (content.includes('urgent') || content.includes('asap') || content.includes('deadline') ||
-      content.includes('need') || content.includes('must') || content.includes('immediately')) {
+      content.includes('need') || content.includes('must') || content.includes('immediately') ||
+      content.includes('budget') || content.includes('financial')) {
     style = 'Dominant';
     description = 'Urgent/Direct';
   }
@@ -416,11 +420,13 @@ function analyzePriorityLevel(emailData) {
   else {
     tags = ['Standard', 'Business'];
     
-    // Add specific tags based on content
-    if (content.includes('meeting') || content.includes('schedule')) tags.push('Meeting');
-    if (content.includes('project') || content.includes('deadline')) tags.push('Project');
-    if (content.includes('budget') || content.includes('financial')) tags.push('Budget');
-    if (content.includes('review') || content.includes('feedback')) tags.push('Review');
+      // Add specific tags based on content
+  if (content.includes('meeting') || content.includes('schedule')) tags.push('Meeting');
+  if (content.includes('project') || content.includes('deadline')) tags.push('Project');
+  if (content.includes('budget') || content.includes('financial')) tags.push('Budget');
+  if (content.includes('review') || content.includes('feedback')) tags.push('Review');
+  if (content.includes('deadline') || content.includes('urgent')) tags.push('Deadline');
+  if (content.includes('board') || content.includes('executive')) tags.push('Board Meeting');
   }
   
   return { level, color, tags };
@@ -451,7 +457,12 @@ function generateAIResponseSuggestion(emailData, analysisPanel) {
   // Generate response based on DISC analysis and email content
   const response = generatePersonalizedResponse(emailData, userDiscProfile);
   
-  responseText.innerHTML = response.replace(/\n/g, '<br>');
+  // Convert checkmarks and line breaks to HTML
+  const htmlResponse = response
+    .replace(/\n/g, '<br>')
+    .replace(/✓/g, '<span style="color: #34a853; font-weight: bold;">✓</span>');
+  
+  responseText.innerHTML = htmlResponse;
 }
 
 // Generate personalized response based on DISC profile and email content
@@ -468,20 +479,26 @@ function generatePersonalizedResponse(emailData, userProfile) {
   
   // Analyze email intent and generate appropriate response
   if (content.includes('meeting') || content.includes('schedule')) {
-    response += `Thank you for reaching out about scheduling. I'd be happy to coordinate a meeting time that works for both of us.\n\n`;
-    response += `Could you please let me know your availability for this week or next? I'm flexible and can work around your schedule.\n\n`;
+    response += `I'd be happy to coordinate a meeting time that works for both of us.\n\n`;
+    response += `Could you please let me know your availability for this week or next?\n\n`;
   } else if (content.includes('project') || content.includes('deadline')) {
-    response += `I appreciate you bringing this project to my attention. I'll review the requirements and get back to you with a timeline and next steps.\n\n`;
-    response += `To ensure we're aligned, could you confirm the key deliverables and any specific constraints I should be aware of?\n\n`;
+    response += `I'll review the requirements and get back to you with a timeline and next steps.\n\n`;
+    response += `To ensure we're aligned, could you confirm the key deliverables and any specific constraints?\n\n`;
+  } else if (content.includes('budget') || content.includes('financial')) {
+    response += `I'll have the budget proposal ready by Thursday EOD. The analysis will include all requested components:\n\n`;
+    response += `✓ Revenue projections (Q4 forecast)\n`;
+    response += `✓ Detailed cost breakdowns\n`;
+    response += `✓ Risk assessment matrix\n\n`;
+    response += `I'll send a preliminary summary by Wednesday to ensure we're aligned before the final submission.\n\n`;
   } else if (content.includes('review') || content.includes('feedback')) {
-    response += `Thank you for sharing this for review. I'll take the time to thoroughly examine the content and provide detailed feedback.\n\n`;
-    response += `I should be able to get back to you with my thoughts within the next 24-48 hours. Is there anything specific you'd like me to focus on?\n\n`;
+    response += `I'll take the time to thoroughly examine the content and provide detailed feedback.\n\n`;
+    response += `I should be able to get back to you with my thoughts within the next 24-48 hours.\n\n`;
   } else if (content.includes('urgent') || content.includes('asap')) {
     response += `I understand this is time-sensitive. I'll prioritize this and get back to you as soon as possible.\n\n`;
-    response += `To help me respond effectively, could you please clarify the most critical aspects that need immediate attention?\n\n`;
+    response += `To help me respond effectively, could you please clarify the most critical aspects?\n\n`;
   } else {
-    response += `Thank you for your email. I've reviewed the content and will follow up with any questions or next steps.\n\n`;
-    response += `Is there anything specific you'd like me to address or any particular timeline I should be aware of?\n\n`;
+    response += `I've reviewed the content and will follow up with any questions or next steps.\n\n`;
+    response += `Is there anything specific you'd like me to address or any particular timeline?\n\n`;
   }
   
   // Add DISC-appropriate closing
