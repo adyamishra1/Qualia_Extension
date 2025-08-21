@@ -42,6 +42,94 @@ function loadUserDiscProfile() {
   });
 }
 
+// Get user DISC profile as a Promise
+function getUserDiscProfile() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['discProfile'], (result) => {
+      if (result.discProfile) {
+        resolve(result.discProfile);
+      } else {
+        // Default DISC profile if none exists
+        resolve({
+          primaryStyle: 'S',
+          scores: { D: 25, I: 25, S: 25, C: 25 },
+          analysis: 'Balanced communication style'
+        });
+      }
+    });
+  });
+}
+
+// Display response suggestions with "Use as Draft" buttons
+function displayResponseSuggestions(suggestions, container) {
+  const suggestionsHtml = suggestions.map((suggestion, index) => {
+    const discStyleColors = {
+      'D': '#ea4335', // Red for Dominant
+      'I': '#fbbc04', // Yellow for Influential  
+      'S': '#34a853', // Green for Steady
+      'C': '#4285f4'  // Blue for Conscientious
+    };
+    
+    const color = discStyleColors[suggestion.discStyle] || '#5f6368';
+    
+    return `
+      <div class="suggestion-card" style="
+        background: white;
+        border: 1px solid #e8eaed;
+        border-radius: 6px;
+        padding: 10px;
+        margin-bottom: 8px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #202124;
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div style="
+            background: ${color}20;
+            color: ${color};
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 500;
+          ">
+            ${suggestion.discStyle} Style
+          </div>
+          <div style="font-size: 10px; color: #5f6368;">
+            ${suggestion.tone}
+          </div>
+        </div>
+        <div class="suggestion-content" style="margin-bottom: 8px;">
+          ${suggestion.content.replace(/\n/g, '<br>')}
+        </div>
+        <button class="use-draft-btn" data-suggestion-index="${index}" style="
+          background: #1a73e8;
+          border: none;
+          border-radius: 6px;
+          padding: 6px 12px;
+          font-size: 11px;
+          color: white;
+          cursor: pointer;
+          font-weight: 500;
+          transition: all 0.2s;
+          width: 100%;
+        " onmouseover="this.style.background='#1557b0'" onmouseout="this.style.background='#1a73e8'">
+          Use as Draft
+        </button>
+      </div>
+    `;
+  }).join('');
+  
+  container.innerHTML = suggestionsHtml;
+  
+  // Add event listeners for "Use as Draft" buttons
+  const draftButtons = container.querySelectorAll('.use-draft-btn');
+  draftButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      useSuggestionAsDraft(suggestions[index], button);
+    });
+  });
+}
+
 // Monitor Gmail DOM changes
 function observeGmailChanges() {
   const observer = new MutationObserver((mutations) => {
@@ -238,7 +326,7 @@ function addComprehensiveAnalysisPanel(emailData) {
         </div>
       </div>
       
-      <!-- AI-Generated Response Suggestion -->
+      <!-- AI-Generated Response Suggestions -->
       <div class="response-suggestion-section" style="
         background: #f8f9fa;
         border: 1px solid #e8eaed;
@@ -249,53 +337,30 @@ function addComprehensiveAnalysisPanel(emailData) {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#1a73e8" style="margin-right: 8px;">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
           </svg>
-          <strong style="color: #1a73e8; font-size: 13px;">AI-Generated Response Suggestion</strong>
+          <strong style="color: #1a73e8; font-size: 13px;">AI-Generated Response Suggestions</strong>
         </div>
-        <div class="response-content" style="
-          background: white;
-          border: 1px solid #e8eaed;
-          border-radius: 6px;
-          padding: 10px;
-          margin-bottom: 10px;
-          font-size: 12px;
-          line-height: 1.4;
-          color: #202124;
-        ">
-          <div class="response-text">Analyzing email content and generating personalized response...</div>
+        
+        <div class="suggestions-container" style="margin-bottom: 10px;">
+          <div class="suggestion-loading" style="
+            background: white;
+            border: 1px solid #e8eaed;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #202124;
+            text-align: center;
+          ">
+            Analyzing email content and generating personalized responses...
+          </div>
         </div>
+        
         <div style="
           font-size: 10px;
           color: #5f6368;
           margin-bottom: 10px;
           font-style: italic;
         ">Calibrated to your DISC profile and sender's communication style</div>
-        <div style="display: flex; gap: 6px;">
-          <button class="copy-response-btn" style="
-            background: white;
-            border: 1px solid #dadce0;
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 11px;
-            color: #5f6368;
-            cursor: pointer;
-            transition: all 0.2s;
-          " onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='white'">
-            Copy Response
-          </button>
-          <button class="use-draft-btn" style="
-            background: #1a73e8;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 11px;
-            color: white;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-          " onmouseover="this.style.background='#1557b0'" onmouseout="this.style.background='#1a73e8'">
-            Use as Draft
-          </button>
-        </div>
       </div>
     </div>
   `;
@@ -351,7 +416,7 @@ function performComprehensiveAnalysis(emailData, analysisPanel) {
     responseCard.textContent = responseStyle;
   }
   
-  // Generate AI response suggestion
+  // Generate AI response suggestions
   generateAIResponseSuggestion(emailData, analysisPanel);
 }
 
@@ -449,114 +514,140 @@ function analyzeResponseStyle(emailData, userProfile) {
   return responseStyles[userStyle] || 'Professional, Balanced';
 }
 
-// Generate AI-powered response suggestion
-function generateAIResponseSuggestion(emailData, analysisPanel) {
-  const responseText = analysisPanel.querySelector('.response-text');
-  if (!responseText) return;
+// Generate AI-powered response suggestions using OpenAI API
+async function generateAIResponseSuggestion(emailData, analysisPanel) {
+  const suggestionsContainer = analysisPanel.querySelector('.suggestions-container');
+  if (!suggestionsContainer) return;
   
-  // Generate response based on DISC analysis and email content
-  const response = generatePersonalizedResponse(emailData, userDiscProfile);
-  
-  // Convert checkmarks and line breaks to HTML
-  const htmlResponse = response
-    .replace(/\n/g, '<br>')
-    .replace(/✓/g, '<span style="color: #34a853; font-weight: bold;">✓</span>');
-  
-  responseText.innerHTML = htmlResponse;
+  try {
+    // Show loading state
+    suggestionsContainer.innerHTML = `
+      <div class="suggestion-loading" style="
+        background: white;
+        border: 1px solid #e8eaed;
+        border-radius: 6px;
+        padding: 10px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #202124;
+        text-align: center;
+      ">
+        Analyzing email content and generating personalized responses...
+      </div>
+    `;
+    
+    // Get user DISC profile from storage
+    const userProfile = await getUserDiscProfile();
+    if (!userProfile) {
+      throw new Error('User DISC profile not found');
+    }
+    
+    // Call backend API for response suggestions
+    const response = await fetch('http://localhost:5000/api/responses/suggest-extension', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        emailContent: emailData.content,
+        recipientDiscStyle: analyzeCommunicationStyle(emailData).style,
+        userDiscProfile: userProfile
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to generate suggestions');
+    }
+    
+    const data = await response.json();
+    const suggestions = data.suggestions || [];
+    
+    if (suggestions.length === 0) {
+      throw new Error('No suggestions generated');
+    }
+    
+    // Display suggestions
+    displayResponseSuggestions(suggestions, suggestionsContainer);
+    
+  } catch (error) {
+    console.error('Error generating response suggestions:', error);
+    suggestionsContainer.innerHTML = `
+      <div style="
+        background: white;
+        border: 1px solid #e8eaed;
+        border-radius: 6px;
+        padding: 10px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #ea4335;
+        text-align: center;
+      ">
+        Unable to generate suggestions. Please try again.
+      </div>
+    `;
+  }
 }
 
-// Generate personalized response based on DISC profile and email content
+// Legacy function - replaced by OpenAI API integration
 function generatePersonalizedResponse(emailData, userProfile) {
-  const content = emailData.content.toLowerCase();
-  const subject = emailData.subject.toLowerCase();
-  const sender = emailData.sender;
-  
-  // Extract sender name
-  const senderName = sender.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  
-  // Base response structure
-  let response = `Hi ${senderName},\n\n`;
-  
-  // Analyze email intent and generate appropriate response
-  if (content.includes('meeting') || content.includes('schedule')) {
-    response += `I'd be happy to coordinate a meeting time that works for both of us.\n\n`;
-    response += `Could you please let me know your availability for this week or next?\n\n`;
-  } else if (content.includes('project') || content.includes('deadline')) {
-    response += `I'll review the requirements and get back to you with a timeline and next steps.\n\n`;
-    response += `To ensure we're aligned, could you confirm the key deliverables and any specific constraints?\n\n`;
-  } else if (content.includes('budget') || content.includes('financial')) {
-    response += `I'll have the budget proposal ready by Thursday EOD. The analysis will include all requested components:\n\n`;
-    response += `✓ Revenue projections (Q4 forecast)\n`;
-    response += `✓ Detailed cost breakdowns\n`;
-    response += `✓ Risk assessment matrix\n\n`;
-    response += `I'll send a preliminary summary by Wednesday to ensure we're aligned before the final submission.\n\n`;
-  } else if (content.includes('review') || content.includes('feedback')) {
-    response += `I'll take the time to thoroughly examine the content and provide detailed feedback.\n\n`;
-    response += `I should be able to get back to you with my thoughts within the next 24-48 hours.\n\n`;
-  } else if (content.includes('urgent') || content.includes('asap')) {
-    response += `I understand this is time-sensitive. I'll prioritize this and get back to you as soon as possible.\n\n`;
-    response += `To help me respond effectively, could you please clarify the most critical aspects?\n\n`;
-  } else {
-    response += `I've reviewed the content and will follow up with any questions or next steps.\n\n`;
-    response += `Is there anything specific you'd like me to address or any particular timeline?\n\n`;
-  }
-  
-  // Add DISC-appropriate closing
-  const closings = {
-    'D': 'Best regards,',
-    'I': 'Looking forward to connecting!',
-    'S': 'Thank you for your time and consideration.',
-    'C': 'I appreciate your attention to this matter.'
-  };
-  
-  response += closings[userProfile?.primaryStyle] || 'Best regards,';
-  
-  return response;
+  // This function is kept for compatibility but is no longer used
+  // The new system uses the OpenAI API for response generation
+  return "This response generation has been replaced by AI-powered suggestions.";
 }
 
-// Add event listeners for analysis panel buttons
+// Use a suggestion as a draft in Gmail compose area
+function useSuggestionAsDraft(suggestion, button) {
+  try {
+    // Find Gmail compose area
+    const composeArea = document.querySelector('[role="textbox"][contenteditable="true"]');
+    if (!composeArea) {
+      // Try alternative selectors for Gmail compose
+      const alternativeCompose = document.querySelector('.Am.Al.editable') || 
+                                document.querySelector('[contenteditable="true"]') ||
+                                document.querySelector('.gmail_default');
+      
+      if (!alternativeCompose) {
+        console.error('Gmail compose area not found');
+        showNotification('Please open Gmail compose to use this suggestion', 'error', 3000);
+        return;
+      }
+      
+      // Use alternative compose area
+      alternativeCompose.innerHTML = suggestion.content;
+      alternativeCompose.focus();
+    } else {
+      // Use primary compose area
+      composeArea.innerHTML = suggestion.content;
+      composeArea.focus();
+    }
+    
+    // Show success feedback
+    const originalText = button.textContent;
+    const originalBackground = button.style.background;
+    
+    button.textContent = 'Draft Inserted!';
+    button.style.background = '#34a853';
+    button.disabled = true;
+    
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.style.background = originalBackground;
+      button.disabled = false;
+    }, 2000);
+    
+    // Show notification
+    showNotification('Response inserted into Gmail compose', 'success', 2000);
+    
+  } catch (error) {
+    console.error('Error inserting draft:', error);
+    showNotification('Failed to insert draft. Please try again.', 'error', 3000);
+  }
+}
+
+// Add event listeners for analysis panel buttons (legacy - no longer needed)
 function addAnalysisPanelEventListeners(analysisPanel) {
-  const copyBtn = analysisPanel.querySelector('.copy-response-btn');
-  const useDraftBtn = analysisPanel.querySelector('.use-draft-btn');
-  
-  if (copyBtn) {
-    copyBtn.addEventListener('click', () => {
-      const responseText = analysisPanel.querySelector('.response-text');
-      if (responseText) {
-        const text = responseText.textContent || responseText.innerText;
-        navigator.clipboard.writeText(text).then(() => {
-          copyBtn.textContent = 'Copied!';
-          setTimeout(() => {
-            copyBtn.textContent = 'Copy Response';
-          }, 2000);
-        });
-      }
-    });
-  }
-  
-  if (useDraftBtn) {
-    useDraftBtn.addEventListener('click', () => {
-      const responseText = analysisPanel.querySelector('.response-text');
-      if (responseText) {
-        const text = responseText.textContent || responseText.innerText;
-        
-        // Find Gmail compose area and insert the response
-        const composeArea = document.querySelector('[role="textbox"][contenteditable="true"]');
-        if (composeArea) {
-          composeArea.innerHTML = text;
-          composeArea.focus();
-          
-          // Show success feedback
-          useDraftBtn.textContent = 'Draft Inserted!';
-          useDraftBtn.style.background = '#34a853';
-          setTimeout(() => {
-            useDraftBtn.textContent = 'Use as Draft';
-            useDraftBtn.style.background = '#1a73e8';
-          }, 2000);
-        }
-      }
-    });
-  }
+  // This function is kept for compatibility but the new system uses individual button listeners
+  console.log('Analysis panel event listeners added');
 }
 
 // Add sender category badge
@@ -636,6 +727,50 @@ function addGmailToolbarIcon() {
   toolbar.appendChild(iconContainer);
   
   console.log('Gmail toolbar icon added');
+}
+
+// Show notification to user
+function showNotification(message, type = 'info', duration = 3000) {
+  // Remove existing notification if any
+  const existingNotification = document.querySelector('.disc-notification');
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  
+  const colors = {
+    success: '#34a853',
+    error: '#ea4335',
+    info: '#1a73e8',
+    warning: '#fbbc04'
+  };
+  
+  const notification = document.createElement('div');
+  notification.className = 'disc-notification';
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: 1px solid ${colors[type]};
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #202124;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    max-width: 300px;
+    word-wrap: break-word;
+  `;
+  
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  // Auto-remove after duration
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.remove();
+    }
+  }, duration);
 }
 
 // Open extension panel/popup

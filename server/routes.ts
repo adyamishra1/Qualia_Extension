@@ -380,7 +380,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Response Suggestions
+  // Response Suggestions (authenticated)
   app.post('/api/responses/suggest', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
@@ -400,6 +400,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ suggestions });
     } catch (error) {
       console.error('Error generating response suggestions:', error);
+      res.status(500).json({ message: 'Failed to generate response suggestions' });
+    }
+  });
+
+  // Response Suggestions for Extension (no auth required)
+  app.post('/api/responses/suggest-extension', async (req: any, res) => {
+    try {
+      const { emailContent, recipientDiscStyle, userDiscProfile } = req.body;
+
+      if (!emailContent) {
+        return res.status(400).json({ message: 'Email content is required' });
+      }
+
+      // Use provided DISC profile or default
+      const discProfile = userDiscProfile || {
+        primaryStyle: 'S',
+        scores: { D: 25, I: 25, S: 25, C: 25 },
+        analysis: 'Balanced communication style'
+      };
+
+      const suggestions = await generateResponseSuggestions(
+        emailContent,
+        discProfile,
+        recipientDiscStyle
+      );
+
+      res.json({ suggestions });
+    } catch (error) {
+      console.error('Error generating response suggestions for extension:', error);
       res.status(500).json({ message: 'Failed to generate response suggestions' });
     }
   });
