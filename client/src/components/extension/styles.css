@@ -1,0 +1,222 @@
+/* Gmail DISC Extension Content Script Styles */
+
+.disc-email-summary {
+  background: #f8f9fa !important;
+  border: 1px solid #e8eaed !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  margin: 8px 0 !important;
+  font-family: 'Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  color: #202124 !important;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, .3) !important;
+}
+
+.disc-email-summary strong {
+  color: #1a73e8 !important;
+  font-weight: 500 !important;
+}
+
+.disc-email-summary svg {
+  flex-shrink: 0 !important;
+}
+
+.disc-sender-category {
+  display: inline-block !important;
+  background: #e8f0fe !important;
+  color: #1a73e8 !important;
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  margin-left: 8px !important;
+  font-family: 'Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.disc-response-suggestions {
+  background: #fff !important;
+  border: 1px solid #e8eaed !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  margin: 8px !important;
+  font-family: 'Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif !important;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, .3) !important;
+}
+
+.disc-response-suggestions strong {
+  color: #34a853 !important;
+  font-weight: 500 !important;
+}
+
+.disc-response-suggestions button {
+  background: #1a73e8 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 8px 16px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-family: 'Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif !important;
+  font-weight: 500 !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.disc-response-suggestions button:hover {
+  background: #1557b0 !important;
+}
+
+.disc-response-suggestions button:active {
+  background: #1446a0 !important;
+}
+
+.disc-suggestion-item {
+  margin-bottom: 12px !important;
+  padding: 8px !important;
+  border: 1px solid #e8eaed !important;
+  border-radius: 4px !important;
+  background: #fafafa !important;
+}
+
+.disc-suggestion-tone {
+  font-weight: 500 !important;
+  margin-bottom: 4px !important;
+  color: #1a73e8 !important;
+  font-size: 13px !important;
+}
+
+.disc-suggestion-text {
+  font-size: 13px !important;
+  color: #5f6368 !important;
+  margin-bottom: 8px !important;
+  line-height: 1.4 !important;
+}
+
+.disc-suggestion-use-btn {
+  background: #f8f9fa !important;
+  border: 1px solid #e8eaed !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+  color: #3c4043 !important;
+  font-family: 'Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.disc-suggestion-use-btn:hover {
+  background: #f1f3f4 !important;
+}
+
+/* Extension indicator */
+.disc-extension-indicator {
+  position: fixed !important;
+  top: 10px !important;
+  right: 10px !important;
+  background: #34a853 !important;
+  color: white !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  z-index: 10000 !important;
+  font-family: 'Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(60, 64, 67, .3) !important;
+}
+
+/* Loading states */
+.disc-loading {
+  display: inline-flex !important;
+  align-items: center !important;
+  color: #5f6368 !important;
+  font-size: 13px !important;
+}
+
+.disc-loading::after {
+  content: '' !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin-left: 8px !important;
+  border: 2px solid #e8eaed !important;
+  border-top: 2px solid #1a73e8 !important;
+  border-radius: 50% !important;
+  animation: disc-spin 1s linear infinite !important;
+}
+
+@keyframes disc-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Priority indicators */
+.disc-priority-high {
+  color: #ea4335 !important;
+  font-weight: 500 !important;
+}
+
+.disc-priority-medium {
+  color: #fbbc04 !important;
+  font-weight: 500 !important;
+}
+
+.disc-priority-low {
+  color: #34a853 !important;
+  font-weight: 500 !important;
+}
+
+/* DISC style indicators */
+.disc-style-dominant {
+  color: #ea4335 !important;
+  background: #fce8e6 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+.disc-style-influential {
+  color: #fbbc04 !important;
+  background: #fef7e0 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+.disc-style-steady {
+  color: #34a853 !important;
+  background: #e6f4ea !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+.disc-style-conscientious {
+  color: #1a73e8 !important;
+  background: #e8f0fe !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+/* Ensure extension elements don't interfere with Gmail */
+.disc-email-summary,
+.disc-sender-category,
+.disc-response-suggestions {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Hide extension elements when printing */
+@media print {
+  .disc-email-summary,
+  .disc-sender-category,
+  .disc-response-suggestions,
+  .disc-extension-indicator {
+    display: none !important;
+  }
+}

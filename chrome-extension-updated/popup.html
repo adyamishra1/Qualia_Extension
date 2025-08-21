@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gmail DISC Extension</title>
+  <style>
+    body {
+      width: 350px;
+      min-height: 400px;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .header {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .header p {
+      margin: 5px 0 0;
+      opacity: 0.9;
+      font-size: 13px;
+    }
+    
+    .content {
+      padding: 20px;
+    }
+    
+    .status-section {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .status-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .status-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .status-label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .status-indicator {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    
+    .status-connected {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .status-disconnected {
+      background: #f44336;
+      color: white;
+    }
+    
+    .status-checking {
+      background: #ff9800;
+      color: white;
+    }
+    
+    .action-button {
+      width: 100%;
+      padding: 12px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-bottom: 10px;
+    }
+    
+    .action-button:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .action-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .disc-profile {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .disc-profile h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .disc-scores {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    
+    .disc-score {
+      text-align: center;
+      padding: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+    }
+    
+    .disc-score-label {
+      font-size: 11px;
+      opacity: 0.8;
+      margin-bottom: 2px;
+    }
+    
+    .disc-score-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .stats-section {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 15px;
+    }
+    
+    .stats-section h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .stat-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .footer {
+      padding: 15px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      font-size: 11px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Gmail DISC Extension</h1>
+    <p>AI-powered email intelligence</p>
+  </div>
+  
+  <div class="content">
+    <div class="status-section">
+      <div class="status-item">
+        <span class="status-label">Gmail Connection</span>
+        <span id="gmail-status" class="status-indicator status-checking">Checking...</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Backend Server</span>
+        <span id="backend-status" class="status-indicator status-checking">Checking...</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">AI Analysis</span>
+        <span id="ai-status" class="status-indicator status-checking">Checking...</span>
+      </div>
+    </div>
+    
+    <button id="connect-gmail" class="action-button">Connect Gmail</button>
+    <button id="refresh-status" class="action-button">Refresh Status</button>
+    
+    <div class="disc-profile">
+      <h3>Your DISC Profile</h3>
+      <div class="disc-scores">
+        <div class="disc-score">
+          <div class="disc-score-label">Dominant</div>
+          <div class="disc-score-value" id="d-score">--</div>
+        </div>
+        <div class="disc-score">
+          <div class="disc-score-label">Influential</div>
+          <div class="disc-score-value" id="i-score">--</div>
+        </div>
+        <div class="disc-score">
+          <div class="disc-score-label">Steady</div>
+          <div class="disc-score-value" id="s-score">--</div>
+        </div>
+        <div class="disc-score">
+          <div class="disc-score-label">Conscientious</div>
+          <div class="disc-score-value" id="c-score">--</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats-section">
+      <h3>Usage Statistics</h3>
+      <div class="stat-item">
+        <span>Emails Analyzed</span>
+        <span id="emails-analyzed">0</span>
+      </div>
+      <div class="stat-item">
+        <span>Suggestions Used</span>
+        <span id="suggestions-used">0</span>
+      </div>
+      <div class="stat-item">
+        <span>Categories Created</span>
+        <span id="categories-created">0</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    Version 1.0.0 | Gmail DISC Extension
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

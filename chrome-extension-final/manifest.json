@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail DISC Extension",
+  "version": "1.0.0",
+  "description": "AI-powered email categorization and personalized response suggestions based on DISC communication styles",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "identity",
+    "identity.email"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://gmail.com/*",
+    "http://localhost:5000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*",
+        "https://gmail.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Gmail DISC Extension"
+  },
+  "icons": {
+    "16": "icons/icon16.svg",
+    "48": "icons/icon48.svg",
+    "128": "icons/icon128.svg"
+  },
+  "oauth2": {
+    "client_id": "1021208088365-ih8ilr1icfi7fripq3qmfc3q3jk990fm.apps.googleusercontent.com",
+    "scopes": [
+      "openid",
+      "email",
+      "profile",
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/gmail.send",
+      "https://www.googleapis.com/auth/gmail.modify"
+    ]
+  },
+  "externally_connectable": {
+    "matches": ["*://localhost/*"]
+  }
+}

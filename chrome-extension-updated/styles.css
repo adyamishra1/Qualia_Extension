@@ -1,0 +1,205 @@
+/* Gmail DISC Extension - Content Script Styles */
+
+/* AI Summary Styles */
+.disc-ai-summary {
+  animation: slideIn 0.3s ease-out;
+  z-index: 1000;
+  position: relative;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sender Category Badge */
+.disc-sender-badge {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Response Suggestions Panel */
+.disc-suggestions-panel {
+  animation: slideUp 0.3s ease-out;
+  z-index: 1001;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover Effects for Suggestions */
+.disc-suggestion-item {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.disc-suggestion-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+}
+
+/* Priority Indicators */
+.disc-priority-high {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52) !important;
+  color: white !important;
+}
+
+.disc-priority-medium {
+  background: linear-gradient(135deg, #4ecdc4, #44a08d) !important;
+  color: white !important;
+}
+
+.disc-priority-low {
+  background: linear-gradient(135deg, #45b7d1, #96c93d) !important;
+  color: white !important;
+}
+
+/* Category Badges */
+.disc-category-work {
+  background: #4CAF50 !important;
+  color: white !important;
+}
+
+.disc-category-personal {
+  background: #2196F3 !important;
+  color: white !important;
+}
+
+.disc-category-finance {
+  background: #FF9800 !important;
+  color: white !important;
+}
+
+.disc-category-meeting {
+  background: #9C27B0 !important;
+  color: white !important;
+}
+
+.disc-category-project {
+  background: #607D8B !important;
+  color: white !important;
+}
+
+/* DISC Style Indicators */
+.disc-style-dominant {
+  border-left: 4px solid #d32f2f !important;
+}
+
+.disc-style-influential {
+  border-left: 4px solid #f57c00 !important;
+}
+
+.disc-style-steady {
+  border-left: 4px solid #388e3c !important;
+}
+
+.disc-style-conscientious {
+  border-left: 4px solid #1976d2 !important;
+}
+
+/* Loading States */
+.disc-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.disc-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #1a73e8;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Gmail Integration Overrides */
+.disc-ai-summary .ii.gt {
+  margin-top: 0 !important;
+}
+
+/* Ensure our elements don't interfere with Gmail's layout */
+.disc-ai-summary,
+.disc-suggestions-panel,
+.disc-sender-badge {
+  font-family: 'Google Sans', Roboto, RobotoDraft, Helvetica, Arial, sans-serif !important;
+  box-sizing: border-box !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .disc-ai-summary,
+  .disc-suggestions-panel {
+    margin: 8px !important;
+    padding: 8px !important;
+  }
+  
+  .disc-suggestions-panel .suggestions-content {
+    font-size: 12px !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .disc-suggestions-panel > div {
+    background: #2d2d30 !important;
+    border-color: #464647 !important;
+    color: #cccccc !important;
+  }
+  
+  .disc-suggestion-item {
+    background: #383838 !important;
+    border-color: #464647 !important;
+    color: #cccccc !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .disc-ai-summary,
+  .disc-suggestions-panel {
+    border: 2px solid currentColor !important;
+  }
+  
+  .disc-sender-badge span {
+    border: 1px solid currentColor !important;
+  }
+}
+
+/* Animation preferences */
+@media (prefers-reduced-motion: reduce) {
+  .disc-ai-summary,
+  .disc-suggestions-panel,
+  .disc-sender-badge,
+  .disc-suggestion-item {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,246 @@
+/* Gmail DISC Extension Styles */
+
+/* Extension toolbar icon */
+.disc-extension-toolbar-icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.disc-toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0 4px;
+  color: #5f6368;
+  transition: background-color 0.2s;
+}
+
+.disc-toolbar-btn:hover {
+  background-color: #f1f3f4;
+}
+
+/* Comprehensive AI Analysis Panel */
+.disc-ai-analysis-panel {
+  margin-bottom: 20px;
+  font-family: 'Google Sans', Roboto, sans-serif;
+}
+
+.disc-ai-analysis-panel .analysis-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.disc-ai-analysis-panel .analysis-card {
+  background: #f8f9fa;
+  border: 1px solid #e8eaed;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.disc-ai-analysis-panel .analysis-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.disc-ai-analysis-panel .style-result,
+.disc-ai-analysis-panel .priority-result {
+  font-size: 18px;
+  font-weight: 600;
+  color: #202124;
+  margin: 8px 0 4px 0;
+}
+
+.disc-ai-analysis-panel .style-description,
+.disc-ai-analysis-panel .response-result {
+  font-size: 11px;
+  color: #5f6368;
+  line-height: 1.3;
+}
+
+.disc-ai-analysis-panel .priority-tags {
+  margin-top: 8px;
+}
+
+.disc-ai-analysis-panel .priority-tags span {
+  background: #e8f0fe;
+  color: #1a73e8;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  margin: 2px;
+  display: inline-block;
+}
+
+/* Response Suggestion Section */
+.disc-ai-analysis-panel .response-suggestion-section {
+  background: #f8f9fa;
+  border: 1px solid #e8eaed;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.disc-ai-analysis-panel .response-content {
+  background: white;
+  border: 1px solid #e8eaed;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #202124;
+  min-height: 80px;
+}
+
+.disc-ai-analysis-panel .response-text {
+  white-space: pre-line;
+}
+
+/* Action Buttons */
+.disc-ai-analysis-panel .copy-response-btn,
+.disc-ai-analysis-panel .use-draft-btn {
+  padding: 8px 16px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: none;
+}
+
+.disc-ai-analysis-panel .copy-response-btn {
+  background: white;
+  border: 1px solid #dadce0;
+  color: #5f6368;
+}
+
+.disc-ai-analysis-panel .copy-response-btn:hover {
+  background: #f8f9fa;
+}
+
+.disc-ai-analysis-panel .use-draft-btn {
+  background: #1a73e8;
+  color: white;
+}
+
+.disc-ai-analysis-panel .use-draft-btn:hover {
+  background: #1557b0;
+}
+
+/* Sender Category Badge */
+.disc-sender-badge {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.disc-sender-badge span {
+  background: #4CAF50;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Response Suggestions Panel */
+.disc-suggestions-panel {
+  margin-bottom: 12px;
+}
+
+.disc-suggestions-panel .suggestions-content {
+  font-size: 13px;
+}
+
+.disc-suggestions-panel .suggestion-item {
+  background: #f8f9fa;
+  border: 1px solid #e8eaed;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.disc-suggestions-panel .suggestion-item:hover {
+  background: #e8f0fe;
+}
+
+.disc-suggestions-panel .suggestion-style {
+  font-weight: 500;
+  color: #1a73e8;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.disc-suggestions-panel .suggestion-text {
+  line-height: 1.4;
+}
+
+/* Gmail Integration Styles */
+.disc-ai-analysis-panel {
+  position: relative;
+  z-index: 1000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .disc-ai-analysis-panel .analysis-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .disc-ai-analysis-panel .response-suggestion-section {
+    padding: 12px;
+  }
+  
+  .disc-ai-analysis-panel .copy-response-btn,
+  .disc-ai-analysis-panel .use-draft-btn {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
+
+/* Animation for analysis cards */
+.disc-ai-analysis-panel .analysis-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading states */
+.disc-ai-analysis-panel .analyzing {
+  opacity: 0.7;
+}
+
+.disc-ai-analysis-panel .analyzing::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #dadce0;
+  border-radius: 50%;
+  border-top-color: #1a73e8;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

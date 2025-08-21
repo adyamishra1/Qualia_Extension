@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail DISC Extension",
+  "version": "1.0.0",
+  "description": "AI-powered email analysis for Gmail",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://gmail.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*",
+        "https://gmail.com/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
